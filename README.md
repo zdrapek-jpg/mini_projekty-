@@ -1,2 +1,2 @@
-# mini_projekty-
-podsumowanie moich umiejętności i rozwiązań  oraz pomysłów na małe programy które można  zdefiniować 
+"# mini_projects_Python" 
+"commit zebranie projekt�w z roku pracy"  
