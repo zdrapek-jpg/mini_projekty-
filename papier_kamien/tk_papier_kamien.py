@@ -3,9 +3,11 @@ from tkinter import Tk as tk
 from tkinter import Label
 from tkinter import Button
 from random import randint
+import ttkbootstrap
+
 import json
 root = tk()
-path_file = 'C:/Users/Acer/mu_code/mini_projekty/dane_gry.json'
+path_file = 'C:/Users/Acer/mu_code/mini_projekty/papier_kamien/dane_gry.json'
 
 welcome =  (" witaj w grze papier, kamień, nożyce ".center(50,"*").upper())
 wynik = []

@@ -1,7 +1,7 @@
 # Tutaj pisz swój kod, młody padawanie ;-
 from random import randint
 import pyinputplus as pyinp
-
+# olej z czarnuszki na włosy na głwoie  podobno bardzo dobry
 zgadniete =0
 low = [1,10,5]
 medium=[1,20,6]
