@@ -1,99 +1,96 @@
-# Tutaj pisz swój kod, młody padawanie ;-)
-from tkinter import Tk as tk
-from tkinter import Label
-from tkinter import Button
-from random import randint
-import ttkbootstrap
+#!Python3
+# program napisany w tkinter z modułęm ttkbootstrap który imituje gre w papier kamień norzyce
+import json, sys
+from random import choice
+import tkinter as tk
+from tkinter import ttk
+import ttkbootstrap as ttk
 
-import json
-root = tk()
-path_file = 'C:/Users/Acer/mu_code/mini_projekty/papier_kamien/dane_gry.json'
+class App(tk.Tk):
+    path = r"C:/Users/Acer/mu_code/mini_projekty/papier_kamien/dane_gry.json"
+    points = {}
+    def __init__(self):
+        #setup
+        super().__init__()
+        self.title('Gra kulko kzyz')
+        self.geometry("570x450")
+        self.minsize(400,300)
 
-welcome =  (" witaj w grze papier, kamień, nożyce ".center(50,"*").upper())
-wynik = []
-choice = True
-take = ["paper","scissors","rock"]
+        #create widget
+        self.top = Menu(self)
+        #center buttons
+        self.center = Przyciski(self)
+        self.Score_Label = ttk.Label(self,text="".center(20),font=16, background='lavender blush',foreground='black')
+        self.Score_Label.pack(padx=5,pady=5,side='top')
+        self.Score = ttk.Label(self,text = " ".center(20),font=18, background='lavender blush',foreground='blue')
+        self.Score.pack(padx=5,pady=5)
+        ttk.Button(self,text="Reset Score",command=lambda: reset_stats(self)).pack(padx=5,pady=10,side='left')
+        ttk.Button(self,text="exit",width=15,command=lambda: sys.exit()).pack(padx=5,pady=10,side='left')
 
-with open(path_file,"rb") as reading:
-    game_score=json.load(reading)
-root["background"]='#856ff8'
-
-
-root.title("Firts App")
-root.geometry("700x600")
-
-label = Label(root,bg='#856ff8', text=welcome, font=20, fg="red")
-label.pack()
-
-text_label = Label(root,bg='#856ff8', text="zacznij grać", font=30, )
-text_label.pack()
-
-
-
-def play(player_choice,AI_choice):
-    global score_game
-    if player_choice==AI_choice:
-        game_score[1]+=1
-        return None
-    if player_choice=="scissors" and AI_choice=="rock":
-        game_score[2]+=1
-        return True
-    if player_choice=="scissors" and AI_choice=="paper":
-        game_score[0]+=1
-        return True
-    if player_choice=="paper" and AI_choice=="rock":
-        game_score[0]+=1
-        return True
-    if player_choice=="paper" and AI_choice=="scissors":
-        game_score[2]+=1
-        return False
-    if player_choice=="rock" and AI_choice=="scissors":
-        game_score[0]+=1
-        return True
-    if player_choice=="rock" and AI_choice=="paper":
-        game_score[2]+=1
-        return False
-    print(game_score,1)
-
-def play_begin(player_choice):
-    global text_label
-    AI_choice = take[randint(0,2)]
-    is_user_winner = play(player_choice,AI_choice)
-    if is_user_winner is None:
-        text_label.config(text="REMISS😐",fg="blue")
-        label.config(text=f"wynik rozgrywki to : wygrane {game_score[0]}, remisy {game_score[1]}, przegrane {game_score[2]}")
-    if is_user_winner is True:
-        text_label.config(text="WYGRYWASZ!😊",fg="green")
-        label.config(text=f"wynik rozgrywki to : wygrane {game_score[0]}, remisy {game_score[1]}, przegrane {game_score[2]}")
-    if is_user_winner is False:
-        text_label.config(text="PRZEGRYWASZ..😔",fg="red")
-        label.config(text=f"wynik rozgrywki to : wygrane {game_score[0]}, remisy {game_score[1]}, przegrane {game_score[2]}")
+        #run app
+        self.mainloop()
 
 
 
-Button1=Button(root, text="papier", width=15,height=5,bg="orange",command=lambda:play_begin("paper"))
-Button1.pack()
-Button2=Button(root, text="kamien", width=15,height=5,bg="purple",command=lambda:play_begin("rock"))
-Button2.pack()
-Button3=Button(root, text="nożyce", width=15,height=5,bg="pink",command=lambda:play_begin("scissors"))
-Button3.pack()
+class Menu(ttk.Frame):
+    def __init__(self,parent):
+        super().__init__(parent)
+        ttk.Label(self,text="witaj w grze papier, kamień, nożyce ",foreground='blue',background='PaleTurquoise2',font=20).pack()
+        ## zbudowanie Framu
+        self.pack(pady=5)
+class Przyciski(ttk.Frame):
+    def __init__(self,parent):
+        super().__init__(parent)
+        self.game_view =ttk.Label(self,text="zacznij grać",font=18,foreground='blue4',background='PaleTurquoise3')
+        self.game_view.pack(padx=20,pady=30)
+        ttk.Button(self, text='Scissors',width=12,command=lambda:player_take('scissors',self)).pack(padx=10,pady=20,side='left')
+        ttk.Button(self,text="Paper",width=12,command=lambda:player_take('paper',self)).pack(padx=10,side='left')
+        ttk.Button(self,text='Rock',width=12,command=lambda:player_take('rock',self)).pack(padx=10,pady=20,side='left')
+        ## self config of frame
+        self.configure(width=360,height=280,border=3,borderwidth=20,relief=tk.GROOVE,padding=20,)
+        self.pack()
 
-label = Label(root,bg='#856ff8', text=f"wynik rozgrywki to : wygrane {game_score[0]}, remisy {game_score[1]}, przegrane {game_score[2]},", font=35, fg="red")
-label.pack(side="bottom", pady=80,padx=20)
+def player_take(arg,instance):
+    Player = arg
+    Ai_choice = choice(['rock','scissors','paper'])
+    global player_win
+    player_win= "Win" if (Player=='rock' and Ai_choice=='scissors' )or (Player=='scissors' and Ai_choice=='paper')or (Player=='paper' and Ai_choice=='rock') else "Loose" if (Player=='rock' and Ai_choice=='paper' )or (Player=='scissors' and Ai_choice=='rock')or (Player=='paper' and Ai_choice=='scissors') else "Draw"
+    instance.game_view.configure(text=f"{Player} vs {Ai_choice} {player_win}")
+    take_and_write_score(instance.master)
 
-def save_game_score(game_score):
-    with open(path_file, 'w') as fp:
-        json.dump(game_score, fp)
+def take_and_write_score(instance_master):
+    try :
+            with open(App.path,"rb") as file_read:
+                App.points = json.load(file_read)
+                points = App.points
+    except :
+            with open("dane_gry.json","w")as create_file:
+                points = {"Win":0,"Loose":0,"Draw":0}
+                json.dump(points,create_file,indent=4)
+                App.points = points
+                points =App.points
+
+    if player_win == "Win":
+        instance_master.Score_Label.configure(text=f"WYGRYWASZ!😊")
+        points['Win']+=1
+
+    if player_win == "Loose":
+       instance_master.Score_Label.configure(text=f"PRZEGRYWASZ..😔")
+       points['Loose']+=1
+
+    if player_win== "Draw":
+        instance_master.Score_Label.configure(text="REMISS😐")
+        points['Draw']+=1
+
+    instance_master.Score.configure(text = " wygrane {} przegrane{} remisy {}".format(points['Win'],points['Loose'],points['Draw']))
+    with open(App.path, 'w') as fp:
+        json.dump(points, fp)
         fp.close()
+def reset_stats(master):
+    with open(App.path, 'w') as fp:
+        json.dump({"Win":0,"Loose":0,"Draw":0}, fp)
+        fp.close()
+    points ={"Win":0,"Loose":0,"Draw":0}
+    master.Score.configure(text = " wygrane {} przegrane{} remisy {}".format(points['Win'],points['Loose'],points['Draw']))
 
-def exit_button_clicked(game_score):
-    save_game_score(game_score)
-    root.destroy()  # Zamyka okno Tkinter
-
-
-# Tworzenie przycisku Exit
-exit_button = Button(root, text="Exit",width=10,height=5, command=lambda: exit_button_clicked(game_score))
-exit_button.pack()
-
-
-root.mainloop()
+window = App()
