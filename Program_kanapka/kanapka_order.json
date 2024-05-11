@@ -1,0 +1,9 @@
+{
+    "pieczywo": "pszenny",
+    "mięso": "indyk",
+    "ser": "szwajcarski",
+    "additives": [
+        "majonez"
+    ],
+    "price": 9.4
+}

@@ -1,0 +1,21 @@
+chleb      biały     : 1.80 zł
+mięso    wołowina    : 8.00 zł
+ser    mocarella   : 1.10 zł
+dodatki :
+---  pomidor  :      0.80 zł
+---  pomidor  :      0.80 zł
+Price       12.9   zł
+
+Total Price       12.9 zł
+chleb   na zakwasie  : 2.50 zł
+mięso      indyk     : 5.50 zł
+Price        8.0   zł
+
+chleb     pszenny    : 2.30 zł
+mięso      indyk     : 5.50 zł
+ser   szwajcarski  : 0.50 zł
+dodatki :
+---     majonez    :      1.10 zł
+Price        9.4   zł
+
+Total Price       17.4 zł
